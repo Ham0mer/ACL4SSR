@@ -4,3 +4,6 @@ DOMAIN-SUFFIX,qwq.gs
 DOMAIN-SUFFIX,caowk.com
 DOMAIN-SUFFIX,staticfile.org
 IP-CIDR,146.103.24.165/32,DIRECT
+DOMAIN,steamcdn-a.akamaihd.net,🎯 全球直连
+DOMAIN-SUFFIX,cm.steampowered.com,🎯 全球直连
+DOMAIN-SUFFIX,steamserver.net
