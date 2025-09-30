@@ -7,3 +7,4 @@ IP-CIDR,146.103.24.165/32,DIRECT
 DOMAIN,steamcdn-a.akamaihd.net
 DOMAIN-SUFFIX,cm.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
+IP-CIDR,103.121.94.11/32,DIRECT
