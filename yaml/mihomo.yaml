@@ -3,45 +3,36 @@ allow-lan: true
 bind-address: "*"
 mode: rule
 log-level: info
-ipv6: false
+ipv6: true
 external-controller: 127.0.0.1:9090
-
-proxies: # LEAVE THIS LINE!
-
+proxies: null
 proxy-groups:
   - name: ♻️ 自动选择
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    proxies:
-      # LEAVE THIS LINE!
+    proxies: null
   - name: ☑️ 手动切换
     type: select
     proxies:
       - ♻️ 自动选择
-      # LEAVE THIS LINE!
   - name: 🐟 漏网之鱼
     type: select
     proxies:
       - ☑️ 手动切换
-      # LEAVE THIS LINE!
   - name: 📲 电报信息
     type: select
-    proxies:
-      # LEAVE THIS LINE!
+    proxies: null
   - name: 🌍 国外媒体
     type: select
-    proxies:
-      # LEAVE THIS LINE!
+    proxies: null
   - name: 🎥 奈飞视频
     type: select
-    proxies:
-      # LEAVE THIS LINE!
+    proxies: null
   - name: 🤖 OpenAi
     type: select
-    proxies:
-      # LEAVE THIS LINE!
+    proxies: null
   - name: 📢 谷歌FCM
     type: select
     proxies:
@@ -69,15 +60,19 @@ proxy-groups:
     proxies:
       - REJECT
       - DIRECT
+  - name: 🐟 备用
+    type: select
+    proxies:
+      - ☑️ 手动切换
+      - 🎯 全球直连
   - name: ☁️ CloudFlareCDN
     type: select
     proxies:
       - ☑️ 手动切换
       - 🎯 全球直连
-
 rule-providers:
   Direct:
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/Direct/Direct.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml
     path: ./ruleset/Direct.yaml
     behavior: classical
     interval: 86400
@@ -175,8 +170,15 @@ rule-providers:
     format: yaml
     type: http
   steam:
-    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
     path: ./ruleset/steam.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  steamcn:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/SteamCN/SteamCN.yaml
+    path: ./ruleset/steamcn.yaml
     behavior: classical
     interval: 86400
     format: yaml
@@ -204,6 +206,13 @@ rule-providers:
     type: http
   ad:
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/AdvertisingLite/AdvertisingLite_Classical.yaml
+    path: ./ruleset/ad.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  fq:
+    url: https://gcore.jsdelivr.net/gh/afwfv/DD-AD@refs/heads/release/clash.yaml
     path: ./ruleset/ad.yaml
     behavior: classical
     interval: 86400
@@ -237,30 +246,65 @@ rule-providers:
     interval: 86400
     format: yaml
     type: http
-
-
+  Disney:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/Disney/Disney.yaml
+    behavior: classical
+    interval: 86400
+    path: ./ruleset/Disney.yaml
+    type: http
+  Spotify:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/Spotify/Spotify.yaml
+    behavior: classical
+    interval: 86400
+    path: ./ruleset/Spotify.yaml
+    type: http
+  SystemOTA:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/SystemOTA/SystemOTA.yaml
+    behavior: classical
+    interval: 86400
+    path: ./ruleset/SystemOTA.yaml
+    type: http
+  Privacy:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/Privacy/Privacy_Classical.yaml
+    behavior: classical
+    interval: 86400
+    path: ./ruleset/Privacy_Classical.yaml
+    type: http
+  Download:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@refs/heads/master/rule/Clash/Download/Download.yaml
+    behavior: classical
+    interval: 86400
+    path: ./ruleset/Download.yaml
+    type: http
 rules:
+  - RULE-SET,ad,🍃 应用净化
+  - RULE-SET,fq,🍃 应用净化
   - RULE-SET,private,DIRECT
   - RULE-SET,cn_domain,DIRECT
   - RULE-SET,cn_ip,DIRECT
+  - RULE-SET,Direct,🎯 全球直连
+  - RULE-SET,apple,🎯 全球直连
+  - RULE-SET,steamcn,🎯 全球直连
+  - RULE-SET,steam,☑️ 手动切换
+  - RULE-SET,microsoft,Ⓜ️ 微软服务
+  - RULE-SET,onedrive,Ⓜ️ 微软云盘
+  - RULE-SET,netflix,🎥 奈飞视频
+  - RULE-SET,youtube,🌍 国外媒体
+  - RULE-SET,tikTok,🌍 国外媒体
   - RULE-SET,telegram_domain,📲 电报信息
   - RULE-SET,telegram_ip,📲 电报信息
   - RULE-SET,google_domain,📢 谷歌FCM
   - RULE-SET,google_ip,📢 谷歌FCM
-  - RULE-SET,geolocation-!cn,🐟 漏网之鱼
-  - RULE-SET,steam,🎯 全球直连
-  - RULE-SET,netflix,🎥 奈飞视频
-  - RULE-SET,youtube,🌍 国外媒体
-  - RULE-SET,tikTok,🌍 国外媒体
   - RULE-SET,bing,🤖 OpenAi
   - RULE-SET,copilot,🤖 OpenAi
   - RULE-SET,bard,🤖 OpenAi
   - RULE-SET,openai,🤖 OpenAi
   - RULE-SET,claude,🤖 OpenAi
-  - RULE-SET,Direct,🎯 全球直连
-  - RULE-SET,apple,🎯 全球直连
-  - RULE-SET,ad,🍃 应用净化
-  - RULE-SET,microsoft,Ⓜ️ 微软服务
-  - RULE-SET,onedrive,Ⓜ️ 微软云盘
+  - RULE-SET,geolocation-!cn,🐟 漏网之鱼
   - RULE-SET,cloudflare,☁️ CloudFlareCDN
+  - RULE-SET,Disney,🌍 国外媒体
+  - RULE-SET,Spotify,🌍 国外媒体
+  - RULE-SET,SystemOTA,🎯 全球直连
+  - RULE-SET,Privacy,🛑 全球拦截
+  - RULE-SET,Download,🛑 全球拦截
   - MATCH,☑️ 手动切换
